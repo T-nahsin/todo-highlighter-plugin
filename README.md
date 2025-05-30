@@ -13,3 +13,8 @@ This IntelliJ IDEA plugin highlights `TODO` comments in Kotlin files. It scans t
 1. Open a Kotlin file with `TODO` comments.
 2. The comments will be highlighted automatically.
 3. If the tool window is enabled, it will display a list of all TODOs in the file.
+
+## Building & Running
+
+1. Clone the repo into IntelliJ IDEA.
+2. Open the project and run the plugin using `Run > Run Plugin`.
