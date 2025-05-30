@@ -1,0 +1,17 @@
+<idea-plugin>
+    <id>org.nishant.TodoHighlighterPlugin</id>
+    <name>TodoHighlighterPlugin</name>
+    <vendor email="nishant16405@gmail.com" url="https://web.com">Tnahsin</vendor>
+
+    <description><![CDATA[
+        This plugin highlights TODO comments in Kotlin files. It scans the current file, identifies all TODO comments, and displays them in a side panel.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Register the annotator extension here -->
+    <extensions defaultExtensionNs="com.intellij">
+        <annotator language="kotlin" implementationClass="org.nishant.todohighlighterplugin.TodoCommentAnnotator"/>
+    </extensions>
+
+</idea-plugin>
