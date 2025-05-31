@@ -3,6 +3,8 @@ package org.nishant.todohighlighterplugin;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
+import com.intellij.openapi.editor.colors.CodeInsightColors;
+import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
@@ -14,17 +16,24 @@ public class TodoCommentAnnotator implements Annotator {
         if (element instanceof PsiComment) {
             String text = element.getText();
             if (text.contains("TODO")) {
-                // Use a more subtle highlighting for TODO comments
-                TextAttributesKey todoTextAttributes = TextAttributesKey.createTextAttributesKey(
-                        "TODO_HIGHLIGHT",
-                        com.intellij.openapi.editor.colors.EditorColorsManager.getInstance()
-                                .getGlobalScheme().getAttributes(com.intellij.openapi.editor.colors.CodeInsightColors.TODO_DEFAULT_ATTRIBUTES)
-                );
+                // Safely get the attributes for TODO highlighting
+                var attributes = EditorColorsManager.getInstance()
+                        .getGlobalScheme()
+                        .getAttributes(CodeInsightColors.TODO_DEFAULT_ATTRIBUTES);
 
-                holder.newAnnotation(HighlightSeverity.INFORMATION, "TODO comment found")
-                        .range(element)
-                        .textAttributes(todoTextAttributes)
-                        .create();
+                if (attributes != null) {
+                    TextAttributesKey todoTextAttributes = TextAttributesKey.createTextAttributesKey(
+                            "TODO_HIGHLIGHT", attributes
+                    );
+
+                    holder.newAnnotation(HighlightSeverity.INFORMATION, "TODO comment found")
+                            .range(element)
+                            .textAttributes(todoTextAttributes)
+                            .create();
+                } else {
+                    // Optional: Log or handle the null case
+                    System.err.println("Warning: TODO_DEFAULT_ATTRIBUTES returned null.");
+                }
             }
         }
     }
